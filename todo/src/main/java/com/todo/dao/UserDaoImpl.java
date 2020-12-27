@@ -13,10 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.todo.model.ToDo;
+import com.todo.model.ToDoUser;
 
 @Repository
 @Transactional
-public class ToDoDaoImpl implements IToDoDao{
+public class UserDaoImpl implements IUserDao{
 	
 	
 	@Autowired
@@ -27,7 +28,7 @@ public class ToDoDaoImpl implements IToDoDao{
 		Map<String, Object> map = new HashMap<>();
 		try {			
 			Session s = sessionFactory.openSession();
-			List<ToDo> entityList = s.createQuery("FROM ToDo").list();
+			List<ToDoUser> entityList = s.createQuery("FROM ToDo").list();
 			map.put("entityList", entityList);
 			return map;
 		} catch (Exception e) {			
@@ -40,7 +41,7 @@ public class ToDoDaoImpl implements IToDoDao{
 		Map<String, Object> map = new HashMap<>();
 		try {
 			Session s = sessionFactory.openSession();
-			ToDo entity = s.get(ToDo.class, id);
+			ToDoUser entity = s.get(ToDoUser.class, id);
 			map.put("entity", entity);
 			return map;
 		} catch (Exception e) {
@@ -49,7 +50,7 @@ public class ToDoDaoImpl implements IToDoDao{
 	}
 
 	@Override
-	public Map<String, Object> save(ToDo entity) {
+	public Map<String, Object> save(ToDoUser entity) {
 		Map<String, Object> map = new HashMap<>();
 		try {
 			Session s = sessionFactory.openSession();
@@ -62,7 +63,7 @@ public class ToDoDaoImpl implements IToDoDao{
 	}
 
 	@Override
-	public Map<String, Object> update(ToDo entity) {
+	public Map<String, Object> update(ToDoUser entity) {
 		Map<String, Object> map = new HashMap<>();
 		try {
 			Session s = sessionFactory.openSession();
@@ -79,7 +80,7 @@ public class ToDoDaoImpl implements IToDoDao{
 		Map<String, Object> map = new HashMap<>();
 		try {
 			Session s = sessionFactory.openSession();
-			ToDo entity = s.get(ToDo.class, id);
+			ToDoUser entity = s.get(ToDoUser.class, id);
 			s.delete(entity);
 			map.put("status", "success");
 			return map;

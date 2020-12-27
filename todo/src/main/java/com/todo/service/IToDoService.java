@@ -1,11 +1,10 @@
-package com.todo.dao;
+package com.todo.service;
 
 import java.util.Map;
 
 import com.todo.model.ToDo;
 
-public interface IToDoDao {
-
+public interface IToDoService {
 	public Map<String, Object> getAll();
 	public Map<String, Object> getById(long id);
 	public Map<String, Object> save(ToDo entity);
