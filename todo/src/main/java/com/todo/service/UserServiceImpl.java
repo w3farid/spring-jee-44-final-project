@@ -40,4 +40,9 @@ public class UserServiceImpl implements IUserService {
 		return userDao.delete(id);
 	}
 
+	@Override
+	public Map<String, Object> getByUsername(String username) {
+		return userDao.getByUsername(username);
+	}
+
 }

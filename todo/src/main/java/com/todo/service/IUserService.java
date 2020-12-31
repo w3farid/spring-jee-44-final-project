@@ -10,4 +10,5 @@ public interface IUserService {
 	public Map<String, Object> save(ToDoUser entity);
 	public Map<String, Object> update(ToDoUser entity);
 	public Map<String, Object> delete(long id);
+	public Map<String, Object> getByUsername(String username);
 }

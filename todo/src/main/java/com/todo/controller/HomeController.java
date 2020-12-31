@@ -19,5 +19,10 @@ public class HomeController {
 	public ModelAndView registration(HttpServletRequest req) {
 		return new ModelAndView("user/registration");
 	}
+	
+	@GetMapping("/login")
+	public ModelAndView login(HttpServletRequest req) {
+		return new ModelAndView("user/login");
+	}
 
 }

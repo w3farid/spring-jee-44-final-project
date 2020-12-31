@@ -52,8 +52,8 @@ public class UserDaoImpl implements IUserDao {
 		try {
 			Session s = sessionFactory.getCurrentSession();
 			s.save(entity);
-			map.put("status", "error");
-			map.put("message", "Saved Failed!");
+			map.put("status", "success");
+			map.put("message", "Saved successfully");
 			return map;
 		} catch (Exception e) {
 			map.put("status", "error");
@@ -86,6 +86,27 @@ public class UserDaoImpl implements IUserDao {
 			return map;
 		} catch (Exception e) {
 			throw new HibernateError(e.getLocalizedMessage());
+		}
+	}
+	
+	@Override
+	public Map<String, Object> getByUsername(String username) {
+		Map<String, Object> map = new HashMap<>();
+		try {
+			Session s = sessionFactory.getCurrentSession();
+			List<ToDoUser> entityList = s.createQuery("From ToDoUser Where username=:username")
+					.setParameter("username", username)
+					.list();
+			if(entityList.size()> 0) {
+				ToDoUser tododUser = entityList.get(0);
+				map.put("user", tododUser);
+			}else {
+				map.put("user", null);
+			}
+			return map;
+		} catch (Exception e) {
+			map.put("user", null);
+			return map;
 		}
 	}
 

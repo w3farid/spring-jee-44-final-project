@@ -41,7 +41,27 @@ public class UserController {
 	
 	@PostMapping("/login")
 	public ModelAndView login(HttpServletRequest req) {
-		return new ModelAndView("index");
+		String username = req.getParameter("username");
+		String password = req.getParameter("password");
+		Map<String, Object> map = userService.getByUsername(username);
+		ToDoUser user = (ToDoUser) map.get("user");
+		
+		if(user != null) {
+			String status = user.getPassword().equals(password)? "success": "error";
+			if(status.equals("success")) {
+				return new ModelAndView("index");	
+			}else {
+				map.put("status", status);
+				map.put("message", "Login failed! Please try again.");
+				return new ModelAndView("user/login", map);
+			}
+		}else {
+			map.put("status", "error");
+			map.put("message", "Login failed! Please try again.");
+			return new ModelAndView("user/login", map);
+		}
+		
+		
 	}	
 	
 	
