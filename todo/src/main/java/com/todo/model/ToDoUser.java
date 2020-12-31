@@ -19,6 +19,7 @@ public class ToDoUser {
 	private String gender;
 	private String phone;
 	private String address;
+	private String role;
 	
 	public long getId() {
 		return id;
@@ -68,5 +69,13 @@ public class ToDoUser {
 	public void setAddress(String address) {
 		this.address = address;
 	}
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
+	}
+	
+	
 	
 }

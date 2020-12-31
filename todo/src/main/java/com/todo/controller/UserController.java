@@ -1,5 +1,7 @@
 package com.todo.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.todo.model.ToDoUser;
 import com.todo.service.IUserService;
 
 @RestController
@@ -24,6 +27,8 @@ public class UserController {
 		return new ModelAndView("user/create");
 	}
 	
+	
+	
 	@GetMapping("/show/{id}")
 	public ModelAndView show(@PathVariable(value = "id") long id) {
 		return new ModelAndView("user/show");
@@ -37,11 +42,37 @@ public class UserController {
 	@PostMapping("/login")
 	public ModelAndView login(HttpServletRequest req) {
 		return new ModelAndView("index");
-	}
+	}	
+	
 	
 	@PostMapping("/save")
 	public ModelAndView save(HttpServletRequest req) {
-		return new ModelAndView("index");
+		String name = req.getParameter("name");
+		String username = req.getParameter("username");
+		String password = req.getParameter("password");
+		String email = req.getParameter("email");
+		String gender = req.getParameter("gender");
+		String mobile = req.getParameter("mobile");
+		
+		ToDoUser user = new ToDoUser();
+		user.setName(name);
+		user.setUsername(username);
+		user.setPassword(password);
+		user.setEmail(email);
+		user.setGender(gender);
+		user.setPhone(mobile);
+		
+		Map<String, Object> map = userService.save(user);
+		String status = (String) map.get("status");
+		
+		if(status.equals("success")) {
+			System.out.println(status);
+		}else {
+			String message = (String) map.get("message");
+			System.out.println(status);
+			System.out.println(message);
+		}
+		return new ModelAndView("user/registration", map);
 	}
 	
 	@PostMapping("/update")

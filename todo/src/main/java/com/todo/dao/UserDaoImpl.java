@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.transaction.Transactional;
+
 
 import org.hibernate.HibernateError;
 import org.hibernate.Session;
@@ -12,26 +12,23 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.todo.model.ToDo;
 import com.todo.model.ToDoUser;
 
 @Repository
-@Transactional
-public class UserDaoImpl implements IUserDao{
-	
-	
+public class UserDaoImpl implements IUserDao {
+
 	@Autowired
 	SessionFactory sessionFactory;
 
 	@Override
 	public Map<String, Object> getAll() {
 		Map<String, Object> map = new HashMap<>();
-		try {			
+		try {
 			Session s = sessionFactory.openSession();
 			List<ToDoUser> entityList = s.createQuery("FROM ToDo").list();
 			map.put("entityList", entityList);
 			return map;
-		} catch (Exception e) {			
+		} catch (Exception e) {
 			throw new HibernateError(e.getLocalizedMessage());
 		}
 	}
@@ -40,7 +37,7 @@ public class UserDaoImpl implements IUserDao{
 	public Map<String, Object> getById(long id) {
 		Map<String, Object> map = new HashMap<>();
 		try {
-			Session s = sessionFactory.openSession();
+			Session s = sessionFactory.getCurrentSession();
 			ToDoUser entity = s.get(ToDoUser.class, id);
 			map.put("entity", entity);
 			return map;
@@ -53,12 +50,15 @@ public class UserDaoImpl implements IUserDao{
 	public Map<String, Object> save(ToDoUser entity) {
 		Map<String, Object> map = new HashMap<>();
 		try {
-			Session s = sessionFactory.openSession();
+			Session s = sessionFactory.getCurrentSession();
 			s.save(entity);
-			map.put("status", "success");
+			map.put("status", "error");
+			map.put("message", "Saved Failed!");
 			return map;
 		} catch (Exception e) {
-			throw new HibernateError(e.getLocalizedMessage());
+			map.put("status", "error");
+			map.put("message", e.getLocalizedMessage());
+			return null;
 		}
 	}
 
