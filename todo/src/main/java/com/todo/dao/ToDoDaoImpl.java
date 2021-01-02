@@ -34,6 +34,21 @@ public class ToDoDaoImpl implements IToDoDao{
 			throw new HibernateError(e.getLocalizedMessage());
 		}
 	}
+	
+	@Override
+	public Map<String, Object> getByUsername(String username) {
+		Map<String, Object> map = new HashMap<>();
+		try {			
+			Session s = sessionFactory.openSession();
+			List<ToDo> entityList = s.createQuery("FROM ToDo where createdBy=:username")
+					.setParameter("username", username)
+					.list();
+			map.put("entityList", entityList);
+			return map;
+		} catch (Exception e) {			
+			throw new HibernateError(e.getLocalizedMessage());
+		}
+	}
 
 	@Override
 	public Map<String, Object> getById(long id) {
@@ -52,12 +67,15 @@ public class ToDoDaoImpl implements IToDoDao{
 	public Map<String, Object> save(ToDo entity) {
 		Map<String, Object> map = new HashMap<>();
 		try {
-			Session s = sessionFactory.openSession();
+			Session s = sessionFactory.getCurrentSession();
 			s.save(entity);
 			map.put("status", "success");
+			map.put("message", "saved successfully");
 			return map;
 		} catch (Exception e) {
-			throw new HibernateError(e.getLocalizedMessage());
+			map.put("status", "error");
+			map.put("message", "save failed!");
+			return map;
 		}
 	}
 
