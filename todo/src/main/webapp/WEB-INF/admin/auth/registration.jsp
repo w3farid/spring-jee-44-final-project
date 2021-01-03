@@ -34,16 +34,25 @@
 	<div class="container">
 		<div class="row justify-content-center">
 			<div class="col-md-5">
-				<form method="POST" action="${contextPath}/login">
-					<h1>Login Form</h1>
-					 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-					
+				<form action="${contextPath}/registration" method="post">
+					<h1>Registration Form</h1>
+					<div class="mb-3">
+
+						<label for="name" class="form-label">Name</label> <input
+							type="text" name="name" class="form-control" id="name"
+							placeholder="Enter your name">
+
+					</div>
 					<div class="mb-3">
 						<label for="username" class="form-label">Username</label> <input
 							type="text" name="username" class="form-control" id="username"
 							placeholder="Enter your username">
 					</div>
-					
+					<div class="mb-3">
+						<label for="email" class="form-label">Email</label> <input
+							type="email" name="email" class="form-control" id="email"
+							placeholder="Enter your email">
+					</div>
 
 					<div class="mb-3">
 						<label for="password" class="form-label">Password</label> <input
@@ -51,8 +60,26 @@
 							id="password" placeholder="Enter your password">
 					</div>
 
-					
-					<button type="submit" class="btn btn-primary">Login</button>
+					<div class="mb-3">
+						<label for="mobile" class="form-label">mobile</label> <input
+							type="text" name="mobile" class="form-control" id="mobile"
+							placeholder="Enter your mobile">
+					</div>
+
+					<div class="mb-3">
+						<label for="mobile" class="form-label">Gender</label>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="gender"
+								id="inlineRadio1" value="male"> <label
+								class="form-check-label" for="inlineRadio1">Male</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="gender"
+								id="inlineRadio2" value="female"> <label
+								class="form-check-label" for="inlineRadio2">Female</label>
+						</div>
+					</div>
+					<button type="submit" class="btn btn-primary">Save</button>
 					
 					<c:if test='${status.equals("success") }'>
 						<div class="alert alert-primary" role="alert">

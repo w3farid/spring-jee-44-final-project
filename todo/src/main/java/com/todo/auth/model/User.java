@@ -1,17 +1,21 @@
-package com.todo.model;
+package com.todo.auth.model;
+
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "users")
-public class ToDoUser {
+public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
+	
 	private String name;
 	private String username;
 	private String password;
@@ -19,7 +23,9 @@ public class ToDoUser {
 	private String gender;
 	private String phone;
 	private String address;
-	private String role;
+	
+	@ManyToMany
+    private Set<Role> roles;
 	
 	public long getId() {
 		return id;
@@ -69,13 +75,12 @@ public class ToDoUser {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public String getRole() {
-		return role;
+	public Set<Role> getRoles() {
+		return roles;
 	}
-	public void setRole(String role) {
-		this.role = role;
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
 	}
-	
 	
 	
 }

@@ -48,7 +48,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan("com.todo.model");
+        sessionFactory.setPackagesToScan("com.todo.model", "com.todo.auth.model");
         sessionFactory.setHibernateProperties(hibernateProperties());
  
         return sessionFactory;
@@ -74,7 +74,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
     }
     
     @Bean
-    @Qualifier(value = "entityManager")
+    @Qualifier(value = "entityManagerFactory")
     public EntityManager entityManager(EntityManagerFactory entityManagerFactory) {
         return entityManagerFactory.createEntityManager();
     }

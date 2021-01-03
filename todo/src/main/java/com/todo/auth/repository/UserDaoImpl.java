@@ -1,10 +1,8 @@
-package com.todo.dao;
+package com.todo.auth.repository;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-
 
 import org.hibernate.HibernateError;
 import org.hibernate.Session;
@@ -12,7 +10,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.todo.model.ToDoUser;
+import com.todo.auth.model.User;
 
 @Repository
 public class UserDaoImpl implements IUserDao {
@@ -25,7 +23,7 @@ public class UserDaoImpl implements IUserDao {
 		Map<String, Object> map = new HashMap<>();
 		try {
 			Session s = sessionFactory.openSession();
-			List<ToDoUser> entityList = s.createQuery("FROM ToDo").list();
+			List<User> entityList = s.createQuery("FROM ToDo").list();
 			map.put("entityList", entityList);
 			return map;
 		} catch (Exception e) {
@@ -38,7 +36,7 @@ public class UserDaoImpl implements IUserDao {
 		Map<String, Object> map = new HashMap<>();
 		try {
 			Session s = sessionFactory.getCurrentSession();
-			ToDoUser entity = s.get(ToDoUser.class, id);
+			User entity = s.get(User.class, id);
 			map.put("entity", entity);
 			return map;
 		} catch (Exception e) {
@@ -47,7 +45,7 @@ public class UserDaoImpl implements IUserDao {
 	}
 
 	@Override
-	public Map<String, Object> save(ToDoUser entity) {
+	public Map<String, Object> save(User entity) {
 		Map<String, Object> map = new HashMap<>();
 		try {
 			Session s = sessionFactory.getCurrentSession();
@@ -63,7 +61,7 @@ public class UserDaoImpl implements IUserDao {
 	}
 
 	@Override
-	public Map<String, Object> update(ToDoUser entity) {
+	public Map<String, Object> update(User entity) {
 		Map<String, Object> map = new HashMap<>();
 		try {
 			Session s = sessionFactory.openSession();
@@ -80,7 +78,7 @@ public class UserDaoImpl implements IUserDao {
 		Map<String, Object> map = new HashMap<>();
 		try {
 			Session s = sessionFactory.openSession();
-			ToDoUser entity = s.get(ToDoUser.class, id);
+			User entity = s.get(User.class, id);
 			s.delete(entity);
 			map.put("status", "success");
 			return map;
@@ -88,25 +86,39 @@ public class UserDaoImpl implements IUserDao {
 			throw new HibernateError(e.getLocalizedMessage());
 		}
 	}
-	
+
 	@Override
 	public Map<String, Object> getByUsername(String username) {
 		Map<String, Object> map = new HashMap<>();
 		try {
 			Session s = sessionFactory.getCurrentSession();
-			List<ToDoUser> entityList = s.createQuery("From ToDoUser Where username=:username")
-					.setParameter("username", username)
-					.list();
-			if(entityList.size()> 0) {
-				ToDoUser tododUser = entityList.get(0);
+			List<User> entityList = s.createQuery("From ToDoUser Where username=:username")
+					.setParameter("username", username).list();
+			if (entityList.size() > 0) {
+				User tododUser = entityList.get(0);
 				map.put("user", tododUser);
-			}else {
+			} else {
 				map.put("user", null);
 			}
 			return map;
 		} catch (Exception e) {
 			map.put("user", null);
 			return map;
+		}
+	}
+
+	@Override
+	public User findByUsername(String username) {
+		try {
+			Session s = sessionFactory.getCurrentSession();
+			List<User> entityList = s.createQuery("From User Where username=:username")
+					.setParameter("username", username).list();
+			if (entityList.size() > 0) {
+				User tododUser = entityList.get(0);
+			}
+			return null;
+		} catch (Exception e) {
+			return null;
 		}
 	}
 

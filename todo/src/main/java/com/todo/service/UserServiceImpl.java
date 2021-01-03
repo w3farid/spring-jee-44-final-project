@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.todo.dao.IUserDao;
-import com.todo.model.ToDoUser;
+import com.todo.auth.model.User;
+import com.todo.auth.repository.IUserDao;
 
-@Service
-@Transactional
+//@Service
+//@Transactional
 public class UserServiceImpl implements IUserService {
 	@Autowired
 	IUserDao userDao;
@@ -26,12 +26,12 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
-	public Map<String, Object> save(ToDoUser entity) {
+	public Map<String, Object> save(User entity) {
 		return userDao.save(entity);
 	}
 
 	@Override
-	public Map<String, Object> update(ToDoUser entity) {
+	public Map<String, Object> update(User entity) {
 		return userDao.update(entity);
 	}
 

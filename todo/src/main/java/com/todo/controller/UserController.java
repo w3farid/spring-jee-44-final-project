@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.todo.model.ToDoUser;
+import com.todo.auth.model.User;
 import com.todo.service.IUserService;
 
-@RestController
-@RequestMapping("/user")
+//@RestController
+//@RequestMapping("/user")
 public class UserController {
 	
 	@Autowired
@@ -44,7 +44,7 @@ public class UserController {
 		String username = req.getParameter("username");
 		String password = req.getParameter("password");
 		Map<String, Object> map = userService.getByUsername(username);
-		ToDoUser user = (ToDoUser) map.get("user");
+		User user = (User) map.get("user");
 		
 		if(user != null) {
 			String status = user.getPassword().equals(password)? "success": "error";
@@ -74,7 +74,7 @@ public class UserController {
 		String gender = req.getParameter("gender");
 		String mobile = req.getParameter("mobile");
 		
-		ToDoUser user = new ToDoUser();
+		User user = new User();
 		user.setName(name);
 		user.setUsername(username);
 		user.setPassword(password);
