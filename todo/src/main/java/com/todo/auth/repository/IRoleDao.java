@@ -1,10 +1,10 @@
 package com.todo.auth.repository;
 
-import java.util.Set;
+import java.util.List;
 
 import com.todo.auth.model.Role;
 
 public interface IRoleDao {
 
-	Set<Role> findAll();
+	List<Role> findAll();
 }

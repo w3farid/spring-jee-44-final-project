@@ -1,5 +1,6 @@
 package com.todo.auth.model;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -25,7 +26,7 @@ public class User {
 	private String address;
 	
 	@ManyToMany
-    private Set<Role> roles;
+    private List<Role> roles;
 	
 	public long getId() {
 		return id;
@@ -75,10 +76,10 @@ public class User {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public Set<Role> getRoles() {
+	public List<Role> getRoles() {
 		return roles;
 	}
-	public void setRoles(Set<Role> roles) {
+	public void setRoles(List<Role> roles) {
 		this.roles = roles;
 	}
 	

@@ -54,7 +54,7 @@ public class ToDoDaoImpl implements IToDoDao{
 	public Map<String, Object> getById(long id) {
 		Map<String, Object> map = new HashMap<>();
 		try {
-			Session s = sessionFactory.openSession();
+			Session s = sessionFactory.getCurrentSession();
 			ToDo entity = s.get(ToDo.class, id);
 			map.put("entity", entity);
 			return map;
@@ -83,12 +83,16 @@ public class ToDoDaoImpl implements IToDoDao{
 	public Map<String, Object> update(ToDo entity) {
 		Map<String, Object> map = new HashMap<>();
 		try {
-			Session s = sessionFactory.openSession();
+			Session s = sessionFactory.getCurrentSession();
 			s.update(entity);
 			map.put("status", "success");
+			map.put("entity", entity);
+			map.put("message", "updated successfully");
 			return map;
 		} catch (Exception e) {
-			throw new HibernateError(e.getLocalizedMessage());
+			map.put("status", "error");
+			map.put("message", "update failed!");
+			return map;
 		}
 	}
 
@@ -96,7 +100,7 @@ public class ToDoDaoImpl implements IToDoDao{
 	public Map<String, Object> delete(long id) {
 		Map<String, Object> map = new HashMap<>();
 		try {
-			Session s = sessionFactory.openSession();
+			Session s = sessionFactory.getCurrentSession();
 			ToDo entity = s.get(ToDo.class, id);
 			s.delete(entity);
 			map.put("status", "success");

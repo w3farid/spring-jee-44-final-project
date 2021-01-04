@@ -15,21 +15,21 @@ import com.todo.auth.model.Role;
 import com.todo.auth.model.User;
 import com.todo.auth.repository.IUserDao;
 
-@Service("userDetailsServiceImpl")
+@Service
 public class UserDetailsServiceImpl implements UserDetailsService{
     @Autowired
     private IUserDao userDao;
 
     @Override
-    @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) {
         User user = userDao.findByUsername(username);
         if (user == null) throw new UsernameNotFoundException(username);
 
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-        for (Role role : user.getRoles()){
-            grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
-        }
+//        for (Role role : user.getRoles()){
+//            grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
+//        }
+        grantedAuthorities.add(new SimpleGrantedAuthority("admin"));
 
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthorities);
     }

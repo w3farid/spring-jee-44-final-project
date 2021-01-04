@@ -9,10 +9,12 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.todo.auth.model.User;
 
 @Repository
+@Transactional
 public class UserDaoImpl implements IUserDao {
 
 	@Autowired
@@ -111,10 +113,11 @@ public class UserDaoImpl implements IUserDao {
 	public User findByUsername(String username) {
 		try {
 			Session s = sessionFactory.getCurrentSession();
-			List<User> entityList = s.createQuery("From User Where username=:username")
+			List<User> entityList = s.createQuery("From User where username=:username")
 					.setParameter("username", username).list();
 			if (entityList.size() > 0) {
 				User tododUser = entityList.get(0);
+				return tododUser;
 			}
 			return null;
 		} catch (Exception e) {

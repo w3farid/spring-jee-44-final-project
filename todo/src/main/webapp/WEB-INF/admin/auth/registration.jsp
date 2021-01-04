@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 
 
@@ -34,7 +34,10 @@
 	<div class="container">
 		<div class="row justify-content-center">
 			<div class="col-md-5">
+			
 				<form action="${contextPath}/registration" method="post">
+					<input type="hidden" name="${_csrf.parameterName}"
+						value="${_csrf.token}" />
 					<h1>Registration Form</h1>
 					<div class="mb-3">
 
@@ -80,19 +83,15 @@
 						</div>
 					</div>
 					<button type="submit" class="btn btn-primary">Save</button>
-					
+
 					<c:if test='${status.equals("success") }'>
-						<div class="alert alert-primary" role="alert">
-							${message}
-						</div>
+						<div class="alert alert-primary" role="alert">${message}</div>
 					</c:if>
-					
+
 					<c:if test='${status.equals("error") }'>
-						<div class="alert alert-danger" role="alert">
-							${message}
-						</div>
+						<div class="alert alert-danger" role="alert">${message}</div>
 					</c:if>
-					
+
 				</form>
 			</div>
 		</div>
