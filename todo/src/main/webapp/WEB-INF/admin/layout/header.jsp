@@ -52,8 +52,8 @@
           </li>
           
            <li class="nav-item ">
-            <a class="nav-link" href="/user/create">
-              <i class="material-icons">person</i>
+            <a class="nav-link" href="/todo/my-today">
+              <i class="material-icons">today</i>
               <p>My Today</p>
             </a>
           </li>

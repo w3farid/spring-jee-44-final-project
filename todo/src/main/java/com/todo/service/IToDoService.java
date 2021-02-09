@@ -11,4 +11,5 @@ public interface IToDoService {
 	public Map<String, Object> update(ToDo entity);
 	public Map<String, Object> delete(long id);
 	public Map<String, Object> getByUsername(String username);
+	public Map<String, Object> getMyToday(String username);
 }

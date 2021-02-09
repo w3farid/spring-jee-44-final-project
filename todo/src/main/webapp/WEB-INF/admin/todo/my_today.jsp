@@ -28,9 +28,15 @@
 								<td>${todo.createdDate}</td>
 								<td>
 
-									<a href="${contextPath}/todo/edit/${todo.id}" class="btn btn-info">Edit</a>
-									<a href="${contextPath}/todo/delete/${todo.id}" class="btn btn-info">Delete</a>
-									<a href="${contextPath}/todo/done/${todo.id}" class="btn btn-info">Done</a>
+									<a href="${contextPath}/todo/edit/${todo.id}" >
+										<i class="material-icons">edit</i>
+									</a>
+									<a href="${contextPath}/todo/delete/${todo.id}" >
+										<i class="material-icons">delete</i>
+									</a>
+									<a href="${contextPath}/todo/done/${todo.id}">
+										<i class="material-icons">done</i>
+									</a>
 								</td>
 							</tr>
 						</c:forEach>

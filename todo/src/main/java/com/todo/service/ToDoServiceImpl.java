@@ -43,4 +43,9 @@ public class ToDoServiceImpl implements IToDoService {
 		return toDoDao.delete(id);
 	}
 
+	@Override
+	public Map<String, Object> getMyToday(String username) {
+		return toDoDao.getMyToday(username);
+	}
+
 }

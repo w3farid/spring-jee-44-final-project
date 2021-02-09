@@ -12,4 +12,5 @@ public interface IToDoDao {
 	public Map<String, Object> update(ToDo entity);
 	public Map<String, Object> delete(long id);
 	public Map<String, Object> getByUsername(String username);
+	Map<String, Object> getMyToday(String username);
 }

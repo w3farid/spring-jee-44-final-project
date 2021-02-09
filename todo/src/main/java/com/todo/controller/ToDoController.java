@@ -1,24 +1,26 @@
 package com.todo.controller;
 
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.todo.auth.service.UserService;
 import com.todo.model.ToDo;
 import com.todo.service.IToDoService;
 
-@Controller
+@RestController
 @RequestMapping("/todo")
 public class ToDoController {
 	@Autowired
@@ -41,8 +43,19 @@ public class ToDoController {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String username = userService.getCurrentUsername();	
 
-		Map<String, Object> map = toDoService.getByUsername(username);
-		return new ModelAndView("todo/todo", map);
+		Map<String, Object> map = toDoService.getMyToday(username);
+		return new ModelAndView("todo/my_today", map);
+	}
+	
+	@GetMapping("/todolist/{usrname}")
+	public List<ToDo> todoList(@PathVariable(value = "usrname") String username1) {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String username = userService.getCurrentUsername();	
+		if(username == null) username = "irfan";
+
+		Map<String, Object> map = toDoService.getByUsername(username1);
+		List<ToDo> entityList = (List<ToDo>) map.get("entityList");
+		return entityList;
 	}
 
 	@GetMapping("/edit/{id}")
@@ -52,20 +65,23 @@ public class ToDoController {
 		return new ModelAndView("todo/edit", map);
 	}
 	
+	
 	@GetMapping("/delete/{id}")
-	public String delete(@PathVariable(value = "id") long id) {
+	public ModelAndView delete(@PathVariable(value = "id") long id) {
 		Map<String, Object> map = toDoService.delete(id);
-		return "redirect:/todo";
+//		return "redirect:/todo";
+		
+		return new ModelAndView("redirect:/todo");
 	}
 	
 	@GetMapping("/done/{id}")
-	public String changeStatus(@PathVariable(value = "id") long id) {
+	public ModelAndView changeStatus(@PathVariable(value = "id") long id) {
 		Map<String, Object> map1 = toDoService.getById(id);
 		ToDo todo = (ToDo) map1.get("entity");
 		todo.setStatus("Done");
 		Map<String, Object> map = toDoService.update(todo);
 
-		return "redirect:/todo";
+		return new ModelAndView("redirect:/todo");
 	}
 
 
@@ -83,7 +99,17 @@ public class ToDoController {
 		todo.setDueDate(new Timestamp(System.currentTimeMillis()));
 		Map<String, Object> map = toDoService.save(todo);
 
-		return new ModelAndView("todo/todo", map);
+		return new ModelAndView("redirect:/todo");	
+	}
+	
+	@PostMapping("/api/add")
+	public String save(@RequestBody ToDo toDo) {
+		toDo.setCreatedBy("api");
+		toDo.setCreatedDate(new Timestamp(System.currentTimeMillis()));
+		toDo.setDueDate(new Timestamp(System.currentTimeMillis()));
+		Map<String, Object> map = toDoService.save(toDo);
+
+		return "success";
 	}
 	
 	@PostMapping("/update")
