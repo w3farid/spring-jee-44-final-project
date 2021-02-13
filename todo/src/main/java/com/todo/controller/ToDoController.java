@@ -1,6 +1,8 @@
 package com.todo.controller;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -116,14 +118,26 @@ public class ToDoController {
 	public ModelAndView update(HttpServletRequest req) {
 		String username = userService.getCurrentUsername();	
 		String content = req.getParameter("content");
-		String id = req.getParameter("id");
+		String strDueDate = req.getParameter("due_date");
+		String strDueTime = req.getParameter("due_time");
+		String strDueDateTime = strDueDate.concat(" " +strDueTime);
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		try {
+		    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+		    Date parsedDate = dateFormat.parse(strDueDateTime);
+		    timestamp = new java.sql.Timestamp(parsedDate.getTime());
+		} catch(Exception e) { //this generic but you can control another types of exception
+		    // look the origin of excption 
+		}		String id = req.getParameter("id");
 		
 		ToDo todo = new ToDo();
 		todo.setId(Long.parseLong(id));
 		todo.setTitle(content);
 		todo.setContent(content);
 		todo.setCreatedBy(username);
+		todo.setStatus("Pending");
 		todo.setCreatedDate(new Timestamp(System.currentTimeMillis()));
+		todo.setDueDate(timestamp);
 		Map<String, Object> map = toDoService.update(todo);
 		
 		return new ModelAndView("todo/edit", map);

@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.todo.auth.model.User;
 
-@Repository
+@Repository("userDao")
 @Transactional
 public class UserDaoImpl implements IUserDao {
 
@@ -94,7 +94,7 @@ public class UserDaoImpl implements IUserDao {
 		Map<String, Object> map = new HashMap<>();
 		try {
 			Session s = sessionFactory.getCurrentSession();
-			List<User> entityList = s.createQuery("From ToDoUser Where username=:username")
+			List<User> entityList = s.createQuery("From User Where username=:username")
 					.setParameter("username", username).list();
 			if (entityList.size() > 0) {
 				User tododUser = entityList.get(0);

@@ -9,8 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.todo.auth.model.User;
 import com.todo.auth.repository.IUserDao;
 
-//@Service
-//@Transactional
+@Service("userService")
+@Transactional
 public class UserServiceImpl implements IUserService {
 	@Autowired
 	IUserDao userDao;
