@@ -34,7 +34,7 @@ public class AuthController {
     @GetMapping("/logout")
     public String logout() {
     	SecurityContextHolder.getContext().setAuthentication(null);
-        return "redirect:/";
+        return "redirect:/login";
     }
 
     @PostMapping("/registration")
@@ -63,9 +63,9 @@ public class AuthController {
 
         userService.save(user);
 
-        securityService.autoLogin(user.getUsername(), user.getPassword());
+        //securityService.autoLogin(user.getUsername(), user.getPassword());
 
-        return "redirect:/";
+        return "redirect:/login";
     }
 
     @GetMapping("/login")
